@@ -241,8 +241,7 @@ function initFormHandling() {
       const name = document.getElementById('studentName')?.value;
       const course = document.getElementById('interestedCourse')?.value;
 
-      showToast(`Thank you, ${name || 'Student'}! Your enquiry for ${course || 'PUC Admissions'} has been submitted successfully. Our team will contact you shortly.`);
-      
+      showToast(`Thank you, ${name || 'Student'}! Your enquiry for ${course || 'PUC Admissions'} has been submitted successfully. Our admissions team will contact you shortly.`);
       enquiryForm.reset();
     });
   }
