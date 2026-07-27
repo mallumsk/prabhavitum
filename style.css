@@ -1430,7 +1430,8 @@ img {
   padding: 36px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  justify-content: space-between;
+  gap: 34px;
   box-shadow: var(--shadow-md);
 }
 
@@ -1461,6 +1462,23 @@ img {
 .contact-text h4 {
   font-size: 1.05rem;
   margin-bottom: 4px;
+}
+
+/* Google Map Container with Distinct Border */
+.google-map-container {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 2px solid var(--brand-blue);
+  box-shadow: 0 4px 16px rgba(30, 43, 120, 0.12);
+  flex-grow: 1;
+  min-height: 330px;
+  width: 100%;
+  position: relative;
+}
+
+[data-theme="dark"] .google-map-container {
+  border: 2px solid rgba(147, 197, 253, 0.35);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
 .contact-text p, .contact-text a {
