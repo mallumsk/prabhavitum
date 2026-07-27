@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCourseModals();
   initGalleryFilters();
   initFormHandling();
+  initTestimonialSlider();
 });
 
 /* -------------------------------------------------------------------------- */
@@ -262,4 +263,83 @@ function showToast(message) {
     toast.style.transform = 'translateY(20px)';
     setTimeout(() => toast.remove(), 300);
   }, 4500);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 6. Testimonial Interactive Slider                                          */
+/* -------------------------------------------------------------------------- */
+function initTestimonialSlider() {
+  const track = document.getElementById('testimonialTrack');
+  const prevBtn = document.getElementById('testimonialPrevBtn');
+  const nextBtn = document.getElementById('testimonialNextBtn');
+  const dots = document.querySelectorAll('#testimonialDots .dot');
+  
+  if (!track || !prevBtn || !nextBtn) return;
+
+  let currentIndex = 0;
+  const totalSlides = document.querySelectorAll('.testimonial-slide').length;
+  let autoSlideTimer;
+
+  function getMaxIndex() {
+    return totalSlides - 1;
+  }
+
+  function updateSlider() {
+    const maxIdx = getMaxIndex();
+    if (currentIndex > maxIdx) currentIndex = 0;
+    if (currentIndex < 0) currentIndex = maxIdx;
+
+    const slideOffset = currentIndex * 100;
+    track.style.transform = `translateX(-${slideOffset}%)`;
+
+    dots.forEach((dot, idx) => {
+      dot.classList.toggle('active', idx === currentIndex);
+    });
+  }
+
+  prevBtn.addEventListener('click', () => {
+    currentIndex--;
+    if (currentIndex < 0) currentIndex = getMaxIndex();
+    updateSlider();
+    restartAutoPlay();
+  });
+
+  nextBtn.addEventListener('click', () => {
+    currentIndex++;
+    if (currentIndex > getMaxIndex()) currentIndex = 0;
+    updateSlider();
+    restartAutoPlay();
+  });
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const slideIdx = parseInt(dot.getAttribute('data-slide'));
+      currentIndex = Math.min(slideIdx, getMaxIndex());
+      updateSlider();
+      restartAutoPlay();
+    });
+  });
+
+  function startAutoPlay() {
+    autoSlideTimer = setInterval(() => {
+      currentIndex++;
+      if (currentIndex > getMaxIndex()) currentIndex = 0;
+      updateSlider();
+    }, 4500);
+  }
+
+  function restartAutoPlay() {
+    clearInterval(autoSlideTimer);
+    startAutoPlay();
+  }
+
+  const wrapper = document.querySelector('.testimonial-slider-wrapper');
+  if (wrapper) {
+    wrapper.addEventListener('mouseenter', () => clearInterval(autoSlideTimer));
+    wrapper.addEventListener('mouseleave', () => startAutoPlay());
+  }
+
+  window.addEventListener('resize', updateSlider);
+  updateSlider();
+  startAutoPlay();
 }
